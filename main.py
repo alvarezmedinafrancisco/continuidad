@@ -4,19 +4,19 @@ def main(page: ft.Page):
     page.title = "Formulario"
     page.padding = 20
     
-    title = ft.Text("Registro de Evento", size=28, weight=ft.FontWeight.BOLD)
-    name_field = ft.TextField(label="Nombre del evento", hint_text="Ingrese el nombre del evento", width=400)
-    dropdown = ft.Dropdown(
-        label="Tipo de evento",
-        hint_text="Selecciona el tipo",
-        options=[
-            ft.dropdown.Option("Conferencia"),
-            ft.dropdown.Option("Taller"),
-            ft.dropdown.Option("Seminario"),
-        ],
-        width=400,
-    )
 
+    title = ft.Text("inicio de secion", size=28, weight=ft.FontWeight.BOLD)
+    name = ft.TextField(label="ingresa tu nombre y apellidos", hint_text="Ingrese el nombre", width=400)
+    contra = ft.TextField(label="ingresa tu contraseña", hint_text="Ingrese el nombre", width=400, password=True)
+    confirmar_contraseña =  ft.TextField(label="ingresa tu contraseña", hint_text="Ingrese el nombre", width=400, password=True)
+    
+    def comprobar_contraseña(a):
+        if contra.value == confirmar_contraseña.value:
+            ft.Text("todo bien",color=ft.Colors.GREEN)
+        else:
+            ft.Text("hay un error",color=ft.Colors.RED)
+    page.update()
+    
     modality = ft.RadioGroup(
         content=ft.Row([
             ft.Radio(value="Presencial", label="Presencial"),
@@ -36,22 +36,20 @@ def main(page: ft.Page):
     summary_container = ft.Column()
     
     def show_summary(e):
-        if not name_field.value or name_field.value.strip() == "":
-            name_field.error_text = "El nombre del evento no puede estar vacío"
-            name_field.update()
-            summary_container.controls = [ft.Text("Corrija los errores antes de continuar.", color=ft.Colors.RED)]
+        if not name.value or name.value.strip() == "":
+            name.error_text = "El  campo nombre no puede estar vacío"
+            name.update()
+            summary_container.controls = [ft.Text("la contraseña es diferente.", color=ft.Colors.RED)]
             summary_container.update()
             return
             
-        name_field.error_text = None
-        name_field.update()
+        name.error_text = None
+        name.update()
         
-        tipo_evento = dropdown.value if dropdown.value else "No especificado"
         
         lines = [
             ft.Text("Resumen del Evento", size=20, weight=ft.FontWeight.BOLD),
-            ft.Text(f"Nombre: {name_field.value}", size=16),
-            ft.Text(f"Tipo: {tipo_evento}", size=16),
+            ft.Text(f"Nombre: {name.value}", size=16),
             ft.Text(f"Modalidad: {modality.value}", size=16),
             ft.Text(f"Requiere inscripción previa: {'Sí' if inscription.value else 'No'}", size=16),
             ft.Text(f"Duración estimada: {int(duration_slider.value)} h", size=16),
@@ -60,22 +58,21 @@ def main(page: ft.Page):
         summary_container.update()
         
     show_button = ft.ElevatedButton(
-        content=ft.Text("Mostrar resumen", color=ft.Colors.WHITE), 
+        content=ft.Text("iniciar sesion", color=ft.Colors.WHITE), 
         bgcolor=ft.Colors.BLUE_600, 
         on_click=show_summary,
-        alignment=ft.MainAxisAlignment.CENTER
     )
     
     form = ft.Column(
         [
             title,
-            name_field,
-            show_button,
-            dropdown,
+            name,
+            contra,
+            confirmar_contraseña,
             ft.Row([ft.Text("Modalidad:"), modality], alignment=ft.MainAxisAlignment.CENTER, spacing=20),
             inscription,
             ft.Row([ft.Text("Duración:"), duration_slider], alignment=ft.MainAxisAlignment.CENTER, spacing=10),
-            
+            show_button,
             summary_container,
         ],
         tight=True,
