@@ -5,18 +5,10 @@ def main(page: ft.Page):
     page.padding = 20
     
 
-    title = ft.Text("inicio de secion", size=28, weight=ft.FontWeight.BOLD)
+    title = ft.Text("inicio de sesion", size=28, weight=ft.FontWeight.BOLD)
     name = ft.TextField(label="ingresa tu nombre y apellidos", hint_text="Ingrese el nombre", width=400)
     contra = ft.TextField(label="ingresa tu contraseña", hint_text="Ingrese el nombre", width=400, password=True)
     confirmar_contraseña =  ft.TextField(label="ingresa tu contraseña", hint_text="Ingrese el nombre", width=400, password=True)
-    
-    def comprobar_contraseña(a):
-        if contra.value == confirmar_contraseña.value:
-            ft.Text("todo bien",color=ft.Colors.GREEN)
-        else:
-            ft.Text("hay un error",color=ft.Colors.RED)
-    page.update()
-    
     modality = ft.RadioGroup(
         content=ft.Row([
             ft.Radio(value="Presencial", label="Presencial"),
@@ -24,6 +16,8 @@ def main(page: ft.Page):
         ]),
         value="Presencial",
     )
+    #agregar una funcion para usar el navbar o algo asi 
+    #investigar que es y como se usa el modelo vista controlador y porque se usa en cualquier lenguaje de programacion y tiene sus detallitos pero nosotros vamos a trabajar python con flet 
     
     inscription = ft.Checkbox(label="Requiere inscripción previa", value=False )
     duration_slider = ft.Slider(min=1, max=8, divisions=7, value=2, label="2 h", width=300)
